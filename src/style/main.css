@@ -1,0 +1,92 @@
+/*!
+ * Start Bootstrap - Thumbnail Gallery (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
+}
+
+.thumb {
+    margin-bottom: 0px;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+.thumbs_wrapper_outer{
+    padding-bottom: 20px;
+    height: 100%;
+}
+
+.thumbs_wrapper_outer .thumbs_wrapper {
+}
+
+.thumbs_wrapper_outer .paginate-pagination {
+    clear: both;
+}
+
+.album_wrapper .thumb a {
+    overflow: hidden;
+    outline: #fff 5px solid;
+    outline-offset: -6px;
+    border-radius: 0px;
+}
+
+.album_wrapper .page-header {
+    padding-bottom: 9px;
+    margin: 10px 0 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.showDND .uploadScreenWrapper {
+    position: absolute;
+    left: 50%;
+    height: 100%;
+    top: 50%;
+}
+
+.album_wrapper:not(.showDND) .uploadScreen {
+    right: 40px;
+    top: 40px;
+    display: block;
+    width: 30px;
+    height: 30px;
+    padding-right: 16px;
+    position: relative;
+    z-index: 1000000000000;
+    float: right;
+}
+
+.showDND .uploadScreen {
+    background-color: #f0f0f0;
+    height: 50%;
+    opacity: 0.5;
+    position: relative;
+    left: -50%;
+    z-index: 10000000;
+    top: -25%;
+    min-height: 400px;
+}
+.img-view {
+    max-height: 350px;
+    max-width: 400px;
+}
+.img-thumb {
+    max-height: 75px;
+    max-width: none;
+}
+.album_thumb {
+    margin-bottom: 10px;
+}
+.album_thumb *:hover {
+    text-decoration:none;
+}
+.likes_button .glyphicon-ok {
+    display: none;
+}
+.likes_button.done .glyphicon-ok {
+    display: inline-block;
+}

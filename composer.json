@@ -1,0 +1,23 @@
+{
+    "name": "rx-projects/piggy",
+    "type": "project",
+    "config" : {
+      "vendor-dir" : "lib"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "app\\": "app/",
+            "app\\service\\": "app/services/",
+            "app\\controller\\": "app/controller/"
+        }
+    },
+
+    "require": {
+        "rudrax/utils": "dev-master",
+        "rudrax/boot": "^0.0.6",
+        "gabordemooij/redbean": "dev-master",
+        "vimeo/vimeo-api": "1.2.3",
+        "cloudinary/cloudinary_php": "^1.4"
+    }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "olp-admin-webapp",
+  "description": "",
+  "version": "0.1.0",
+  "homepage": "",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "cloudinary": "~2.1.4",
+    "webmodules-bootstrap": "~3.2.34"
+  },
+  "devDependencies": {
+    "font-awesome": "fontawesome#~4.5.0"
+  }
+}
