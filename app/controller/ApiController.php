@@ -78,6 +78,19 @@ namespace app\controller {
         }
 
         /**
+         * @RequestMapping(url="api/album/{album_id}",type="json")
+         * @RequestParams(true)
+         */
+        public function album_detail($album_id = null)
+        {
+            $album =  R::getRow("SELECT * FROM album WHERE album_id = ? ORDER BY updated DESC", array($album_id));
+            if(empty($album)){
+                return null;
+            }
+            return $album[0];
+        }
+
+        /**
          * @RequestMapping(url="api/image_like/{image_id}",type="json", auth=true)
          * @RequestParams(true)
          */

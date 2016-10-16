@@ -44,8 +44,8 @@
             <div class="thumbs_wrapper">
                 {foreach $images as $key=>$image}
                     <div class="col-lg-2 col-md-3 col-sm-2 col-xs-3 thumb small">
-                        <a class="thumbnail" href="#{$key}_{$image.cloud_name}_{$image.public_name}"
-                           data-likes="{$image.likes}" data-id="{$image.id}" data-liked="{$image.liked}">
+                        <a class="thumbnail" href="#{$image.cloud_name}_{$image.public_name}"
+                           data-likes="{$image.likes}" data-id="{$image.id}" data-liked="{$image.liked}" data-inorder="{$key}">
                             {cl_image_tag public_name=$image.public_name cloud_name=$image.cloud_name class="img-responsive img-thumb" height="50" width="50"
                             alt=$image.original_filename}
                         </a>
@@ -53,6 +53,7 @@
                 {/foreach}
             </div>
         </div>
+        <div id="disqus_thread"></div>
     </div>
 {/if}
 
@@ -85,6 +86,7 @@
             });
         });
         var hashes = [];
+        var cur_page = 0;
         window.onhashchange = function() {
             var hash = document.location.hash;
             if (!hash) {
@@ -94,11 +96,11 @@
             hash = (hash || "").replace("#", "");
             if (hash) {
                 hashes = hash.split("_");
-                var $img = $.cloudinary.image(hashes[2], {
+                var $img = $.cloudinary.image(hashes[1], {
                     width: 400, height: 400,
                     flags: "progressive",
                     'class': "img-responsive img-view",
-                    cloud_name: hashes[1]
+                    cloud_name: hashes[0]
                 });
                 $(".thumb.big .thumbnail").empty().append($img).attr("href", $img[0].src);
                 $curSor =  $(".thumbs_wrapper .thumb.small a.thumbnail[href='" + document.location.hash + "']");
@@ -106,12 +108,20 @@
                 $(".show-prev").attr("href",$curParent.prev().find("a.thumbnail").attr("href"));
                 $(".show-next").attr("href",$curParent.next().find("a.thumbnail").attr("href"));
                 var imageData =$curSor.data();
-                $(".btn.likes_button").attr("image_id", imageData.id).toggleClass("done", imageData.liked == 1);
-                $(".likes_count").text(imageData.likes);
+                if(imageData){
+                    cur_page = imageData.inorder;
+                    $(".btn.likes_button").attr("image_id", imageData.id).toggleClass("done", imageData.liked == 1);
+                    $(".likes_count").text(imageData.likes);
+                }
             }
         }
         window.onhashchange();
-        $(".album_wrapper .thumbs_wrapper").data('paginate').switchPage(Math.floor(hashes[0] / 18) + 1);
+        (function($dom){
+            if($dom){
+                $dom.switchPage(Math.floor(cur_page / 18) + 1);
+            }
+        })($(".album_wrapper .thumbs_wrapper").data('paginate'))
+
     });
     {/literal}
 
@@ -165,5 +175,37 @@
     {/literal}
     {/if}
 </script>
+<script>
+    var disqus_config = function() {literal}{{/literal}
+        this.page.remote_auth_s3 = "{$disqus_config.message} {$disqus_config.hmac} {$disqus_config.timestamp}";
+        this.page.api_key = "{$disqus_config.DISQUS_PUBLIC_KEY}";
+        this.page.url = 'http://piggy.localhost.com/u/{$penname}/album/{$album_id}';  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = '{$album_id}'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        {literal} }{/literal}
+    {literal}
+</script>
+
+<script>
+    /**
+     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+     */
+    /*
+     var disqus_config = function () {
+     this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+     this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+     };
+     */
+    (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+        var d = document, s = d.createElement('script');
+
+        s.src = '//piggy-1.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    {/literal}
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
 {include file="footer.tpl" }
