@@ -8,38 +8,45 @@
 
 {if isset($album)}
     <div class="row album_wrapper" id="album_{$album_id}">
-        {if $CAN_EDIT_ALBUM }
-            <div class="uploadScreenWrapper">
-                <label class="uploadScreen container">
-                    <span class="glyphicon glyphicon-open-file"></span>
+
+        <div class="col-lg-12">
+            <br>
+            <span class="album_title"><b>{$album.title}</b>
+                <small>{$album.description}</small>
+            </span>
+            {if $CAN_EDIT_ALBUM }
+                <div class="uploadScreenWrapper pull-right">
+                    <label class="uploadScreen container">
+                        <span class="glyphicon glyphicon-open-file" style="font-size: 26px;"></span>
                     <span class="hide">
                         {cl_image_upload_tag}
                     </span>
-                </label>
-            </div>
-        {/if}
-
-        <div class="col-lg-12">
-            <h2 class="page-header">{$album.title}
-                <small>{$album.description}</small>
-            </h2>
+                    </label>
+                </div>
+            {/if}
+            <hr/>
         </div>
         <div class="col-lg-6 col-md-6 col-xs-12 thumb big">
-            <a class="thumbnail" href="#" target="_blank">
-                <img class="img-responsive img-view" src="http://placehold.it/500x500" alt="">
-            </a>
-
-            <div class="{if $CAN_LIKE_PIC }btn btn-primary btn-sm{/if} likes_button" type="button">
+            <div style="height: 100%; position: relative">
+                <a class="show-prev" href="#"><span class="glyphicon glyphicon-chevron-left"></span></a>
+                <a class="show-next" href="#"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                <a class="thumbnail" href="#" target="_blank">
+                    <img class="img-responsive img-view" src="http://placehold.it/500x500" alt="">
+                </a>
+            </div>
+            <div class="{if $CAN_LIKE_PIC }btn btn-primary{/if} btn-xs likes_button" type="button">
                 <span class="glyphicon glyphicon-ok"></span> Like <span class="badge likes_count">0</span>
             </div>
+            <div class="clearfix"></div>
+            <br/>
         </div>
         <div class="col-lg-6 col-md-6 col-xs-12 thumbs_wrapper_outer">
             <div class="thumbs_wrapper">
                 {foreach $images as $key=>$image}
-                    <div class="col-lg-3 col-md-4 col-xs-3 thumb small">
+                    <div class="col-lg-2 col-md-3 col-sm-2 col-xs-3 thumb small">
                         <a class="thumbnail" href="#{$key}_{$image.cloud_name}_{$image.public_name}"
                            data-likes="{$image.likes}" data-id="{$image.id}" data-liked="{$image.liked}">
-                            {cl_image_tag public_name=$image.public_name cloud_name=$image.cloud_name class="img-responsive img-thumb" height="64" width="64"
+                            {cl_image_tag public_name=$image.public_name cloud_name=$image.cloud_name class="img-responsive img-thumb" height="50" width="50"
                             alt=$image.original_filename}
                         </a>
                     </div>
@@ -61,7 +68,7 @@
         });
 
         $(".album_wrapper .thumbs_wrapper").paginate({
-            perPage: 12,
+            perPage: 18,
             autoScroll: false,
             paginatePosition: ['bottom'],
             useHashLocation: false,
@@ -94,14 +101,17 @@
                     cloud_name: hashes[1]
                 });
                 $(".thumb.big .thumbnail").empty().append($img).attr("href", $img[0].src);
-                var imageData = $(".thumbs_wrapper .thumb.small a.thumbnail[href='" + document.location.hash + "']").data();
+                $curSor =  $(".thumbs_wrapper .thumb.small a.thumbnail[href='" + document.location.hash + "']");
+                $curParent = $curSor.closest(".thumb.small");
+                $(".show-prev").attr("href",$curParent.prev().find("a.thumbnail").attr("href"));
+                $(".show-next").attr("href",$curParent.next().find("a.thumbnail").attr("href"));
+                var imageData =$curSor.data();
                 $(".btn.likes_button").attr("image_id", imageData.id).toggleClass("done", imageData.liked == 1);
-                console.error("imageData.liked!=1", imageData.liked)
                 $(".likes_count").text(imageData.likes);
             }
         }
         window.onhashchange();
-        $(".album_wrapper .thumbs_wrapper").data('paginate').switchPage(Math.floor(hashes[0] / 12) + 1);
+        $(".album_wrapper .thumbs_wrapper").data('paginate').switchPage(Math.floor(hashes[0] / 18) + 1);
     });
     {/literal}
 

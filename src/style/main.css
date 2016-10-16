@@ -30,8 +30,6 @@ footer {
 
 .album_wrapper .thumb a {
     overflow: hidden;
-    outline: #fff 5px solid;
-    outline-offset: -6px;
     border-radius: 0px;
 }
 
@@ -50,7 +48,6 @@ footer {
 
 .album_wrapper:not(.showDND) .uploadScreen {
     right: 40px;
-    top: 40px;
     display: block;
     width: 30px;
     height: 30px;
@@ -78,6 +75,13 @@ footer {
     max-height: 75px;
     max-width: none;
 }
+
+.album_title {
+    font-size: 20px;
+    max-width: 70%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
 .album_thumb {
     margin-bottom: 10px;
 }
@@ -89,4 +93,35 @@ footer {
 }
 .likes_button.done .glyphicon-ok {
     display: inline-block;
+}
+
+.tt-menu {
+    background-color: #FFF;
+    width: 100%;
+}
+.tt-suggestion {
+    padding: 5px;
+}
+.tt-cursor {
+    background-color: #c4c4c4;
+}
+.show-prev .glyphicon,.show-next .glyphicon{
+    left: 40%;
+    text-align: center;
+    top: 50%;
+    position: absolute;
+}
+.show-prev,.show-next {
+    position: absolute;
+    width: 10%;
+    bottom: 20px;
+    top: 0px;
+}
+.show-prev:hover,.show-next:hover{
+    background-color: #d9d9d9;
+    opacity: 0.5;
+}
+
+.show-next {
+    right: 0px;
 }

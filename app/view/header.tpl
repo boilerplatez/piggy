@@ -13,6 +13,7 @@
     <script src="/src/external/components/jquery/dist/jquery.js" type="text/javascript"></script>
     <script src="/src/external/components/jquery.ui/ui/widget.js" type="text/javascript"></script>
     <script src="/src/pager/src/jquery.paginate.js"></script>
+    <script src="/src/external/components/typeahead.js/dist/typeahead.jquery.min.js" type="text/javascript"></script>
 
 </head>
 
@@ -27,17 +28,16 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/albums">Piggy</a>
-            <form class="navbar-form pull-right" role="search" method="get" id="searchform" action="/search/penname">
-                <div class="input-group">
-                    <input type="text" class="form-control" value="" placeholder="Search..." name="s" id="s">
-                    <div class="input-group-btn">
-                        <button type="submit" id="searchsubmit" value="Search" class="btn btn-success"><span class="glyphicon glyphicon-search"></span></button>
-                    </div>
+            <a class="navbar-brand visible-xs" href="/albums">P</a>
+            <a class="navbar-brand hidden-xs" href="/albums">Piggy</a>
+
+            <form class="navbar-forms pull-left" role="search" method="get" id="searchform" action="/u/search">
+                <div class="input-group" style="top: 8px;">
+                    <input id=search_penname type="text" class="form-control" value="" placeholder="Search..." name="penname" id="s">
                 </div>
             </form>
         </div>
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse pull-right" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
                     <a href="/albums">Albums</a>
@@ -45,8 +45,28 @@
             </ul>
         </div>
         <div class="navbar-header">
-            </div>
+        </div>
     </div>
 </nav>
 
 <div class="container">
+    <script>
+        {literal}
+        $(document).ready(function() {
+            $("#search_penname").typeahead({
+                minLength: 3,
+                highlight: true
+            },{
+                source : function(query, syncResults, asyncResults){
+                    $.get("/api/search_user",{query : query}).done(function(resp){
+                        asyncResults(resp.map(function(item){
+                            return item.penname;
+                        }));
+                    });
+                }
+            });
+        }).on("typeahead:select", function(e) {
+            $("#searchform").submit();
+        })
+        {/literal}
+    </script>

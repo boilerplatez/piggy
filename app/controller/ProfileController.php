@@ -22,6 +22,8 @@ namespace app\controller {
                 $blogger = R::findOne("user", "penname = ?", array($penname));
                 if (!is_null($blogger)) {
                     $user_id = $blogger->id;
+                } else {
+                    return "no_user";
                 }
             } else if ($this->user->isValid()) {
                 $penname = $this->user->uname;
@@ -63,6 +65,16 @@ namespace app\controller {
         {
             return $this->userAlbums($model, $album_id, $penname, $user_id);
 
+        }
+
+        /**
+         * @RequestMapping(url="u/search",type="template")
+         * @RequestParams(true)
+         */
+        public function userSearch($model,$penname = null)
+        {
+            header("Location: /u/".$penname."/albums");
+            exit();
         }
     }
 }

@@ -10,6 +10,14 @@ namespace app\controller {
     {
 
         /**
+         * @RequestMapping(url="api/search_user",type="json", cache=true)
+         * @RequestParams(true)
+         */
+        public function search_user($query)
+        {
+            return R::getAll("SELECT id,penname FROM user WHERE penname like ?", array("%".$query."%"));
+        }
+        /**
          * @RequestMapping(url="api/image_upload",type="json", auth=true)
          * @RequestParams(true)
          */
